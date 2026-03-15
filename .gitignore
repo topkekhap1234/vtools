@@ -1,0 +1,9 @@
+vstat
+vdf
+vport
+vtop
+vconn
+vfiles
+vlock
+vlog
+*.o
