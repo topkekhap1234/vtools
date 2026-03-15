@@ -17,7 +17,7 @@ When a server is under heavy load or a DDoS attack, standard tools like `top`, `
 - **vlog** — Real-time log scanner with color-coded error highlighting.
 
 ## Build & Install
-Designed for **Void Linux**, but compatible with any POSIX system (glibc/musl).
+Designed for **Linux**, but compatible with any POSIX system (glibc/musl).
 
 ```bash
 make
