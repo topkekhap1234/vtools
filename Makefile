@@ -3,7 +3,7 @@ CFLAGS = -Wall -Wextra -O2
 # uncomment next line for fully static
 # LDFLAGS = -static
 
-BINS = vst vfs vpr vcn vpt vt5 vfl vlk
+BINS = vst vfs vpr vcn vpt vt5 vfl vlk vlg
 
 all: $(BINS)
 
