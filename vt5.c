@@ -10,7 +10,7 @@
 #include <ctype.h>
 
 typedef struct { int pid;
-		 char name[256];
+		 char name[512];
 		 unsigned long utime;
 }
 Proc;
@@ -30,8 +30,8 @@ int main() {
     while ((e = readdir(dir)) && n < 1024) {
         if (!isdigit(e->d_name[0])) continue;
 
-        char path[256];
-        snprintf(path, 256, "/proc/%s/stat", e->d_name);
+        char path[512];
+        snprintf(path, sizeof(path), "/proc/%s/stat", e->d_name);
         FILE *f = fopen(path, "r");
         if (f) {
             fscanf(f, "%d (%[^)]) %*c %*d %*d %*d %*d %*d %*u %*u %*u %*u %*u %lu", 

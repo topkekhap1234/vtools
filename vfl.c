@@ -20,8 +20,8 @@ int main() {
     ) {
         if (!isdigit(e->d_name[0])) continue;
 
-        char path[256], buf[256];
-        snprintf(path, 256, "/proc/%s/fd", e->d_name);
+        char path[512], buf[512];
+        snprintf(path, sizeof(path), "/proc/%s/fd", e->d_name);
         
         DIR *fd_dir = opendir(path);
         if (!fd_dir) continue;
@@ -31,9 +31,9 @@ int main() {
         closedir(fd_dir);
 
         if (count > 50) {
-            snprintf(path, 256, "/proc/%s/comm", e->d_name);
+          snprintf(path, sizeof(path), "/proc/%s/comm", e->d_name);
             FILE *f = fopen(path, "r");
-            fgets(buf, 256, f);
+            fgets(buf, sizeof(buf), f);
             buf[strcspn(buf, "\n")] = 0;
             fclose(f);
             
