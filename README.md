@@ -18,15 +18,17 @@ Every tool starts with the **v** (Vital) prefix and follows a "three-letter" mne
 | **`vcn`** | Vital ConNections | Active TCP connection monitor for DDoS detection. |
 | **`vfl`** | Vital FiLes | Identifies processes with potential file descriptor leaks. |
 | **`vlk`** | Vital LocKs | Locates processes currently holding critical file locks. |
+| **`vlg`** | Vital LoGs | Emergency kernel log scanner (Errors/Critical only). |
 
 ### Build & Install
-Designed for **Void Linux** (musl/glibc), but fully compatible with any POSIX-compliant system.
+Designed for **Linux** (musl/glibc), but fully compatible with any POSIX-compliant system.
 
 ```bash
 # Clone the repository
-git clone https://github.com
+git clone https://github.com/topkekhap1234/vtools
 cd vtools
 
 # Build and install
 make
 sudo make install
+```
