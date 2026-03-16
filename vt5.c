@@ -44,11 +44,9 @@ int main() {
 
     qsort(p, n, sizeof(Proc), cmp);
 
-    printf("%-8s %-20s %-10s
-", "PID", "NAME", "TICKS");
+    printf("%-8s %-20s %-10s\n", "PID", "NAME", "TICKS");
     for (int i = 0; i < (n < 5 ? n : 5); i++) {
-        printf("%-8d %-20s %-10lu
-", p[i].pid, p[i].name, p[i].utime);
+        printf("%-8d %-20s %-10lu\n", p[i].pid, p[i].name, p[i].utime);
     }
 
     return 0;

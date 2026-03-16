@@ -20,8 +20,6 @@ int main() {
     printf("Disk /: %luMB free of %luMB (%.1f%% used) ",
 	   free, total, usage);
   
-    if (usage > 90.0) printf("[CRITICAL]
-"); else printf("[OK]
-");
+    if (usage > 90.0) printf("[CRITICAL]\n"); else printf("[OK]\n");
     return 0;
 }

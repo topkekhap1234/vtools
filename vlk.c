@@ -14,8 +14,7 @@ int main() {
     char line[256], comm[256], p_path[256];
     int last_pid = -1;
 
-    printf("%-10s %-20s %-s
-", "PID", "PROCESS", "STATUS");
+    printf("%-10s %-20s %-s\n", "PID", "PROCESS", "STATUS");
 
     while (fgets(line, sizeof(line), f)) {
         int pid;
@@ -28,11 +27,9 @@ int main() {
         FILE *pf = fopen(p_path, "r");
         if (pf) {
             fgets(comm, sizeof(comm), pf);
-            comm[strcspn(comm, "
-")] = 0;
+            comm[strcspn(comm, "\n")] = 0;
             fclose(pf);
-            printf("%-10d %-20s [HAS LOCKS]
-", pid, comm);
+            printf("%-10d %-20s [HAS LOCKS]\n", pid, comm);
         }
     }
     fclose(f);

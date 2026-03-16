@@ -1,24 +1,29 @@
-# vtools — Lightweight System Admin Toolkit (C / POSIX)
+vtools — Vital System Admin Toolkit (C / POSIX)
+vtools (derived from Vital Tools) is a collection of minimalist C utilities designed for high-pressure system administration and emergency incident response. When a server is under heavy load or a DDoS attack, standard heavy-weight tools can become sluggish. vtools bypass high-level dependencies by querying the Linux kernel directly via /proc and low-level system calls.
+The "Vital" Philosophy
+Every tool starts with the v (Vital) prefix and follows a "three letter per util" mnemonic. This ensures commands are ultra-short and easy to type during critical server outages.
+Tools Overview
 
-A collection of minimalist C utilities designed for high-load system administration and incident response. 
-These tools bypass heavy-weight dependencies and query the Linux kernel directly via `/proc` and system calls.
+    vst (Vital STatus) — Instant system heartbeat: Uptime, RAM usage, and Load Average.
+    vfs (Vital File System) — High-speed monitoring of root partition space and mount points.
+    vpt (Vital PorTs) — Rapid TCP port availability check (no-nmap required).
+    vt5 (Vital Top 5) — Instant snapshot of the Top-5 most resource-heavy processes.
+    vpr (Vital PRocess) — Detailed report for a specific PID: memory maps, status, and limits.
+    vcn (Vital ConNections) — Active TCP connection counter for immediate DDoS detection.
+    vfl (Vital FiLes) — Identifies processes with potential file descriptor leaks.
+    vlk (Vital LocKs) — Locates processes currently holding critical file locks.
+    vlg (Vital LoGs) — Real-time log scanner with color-coded error highlighting.
 
-## Why vtools?
-When a server is under heavy load or a DDoS attack, standard tools like `top`, `lsof`, or `netstat` can become sluggish. **vtools** are designed to be fast, static-ready, and ultra-lightweight.
+Build & Install
+Designed for Void Linux (musl/glibc), but fully compatible with any POSIX-compliant system.
+bash
 
-## Tools Overview
-- **vstat** — Instant system heartbeat (Uptime, RAM, LoadAvg).
-- **vdf** — Critical disk space monitoring for the root partition.
-- **vport** — Fast TCP port availability check (no-nmap required).
-- **vtop** — Instant snapshot of the Top-5 most resource-heavy processes.
-- **vconn** — Active TCP connection counter (DDoS detection).
-- **vfiles** — Identifies processes with potential file descriptor leaks.
-- **vlock** — Locates processes currently holding file locks.
-- **vlog** — Real-time log scanner with color-coded error highlighting.
-
-## Build & Install
-Designed for **Linux**, but compatible with any POSIX system (glibc/musl).
+# Clone the repository
+git clone https://github.com
+cd vtools
 
 ```bash
+=======
+# Build and install
 make
 sudo make install

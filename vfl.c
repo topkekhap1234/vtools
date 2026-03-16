@@ -13,8 +13,7 @@ int main() {
     struct dirent *e;
     if (!d) return 1;
 
-    printf("%-8s %-20s %-10s
-", "PID", "NAME", "FILES");
+    printf("%-8s %-20s %-10s\n", "PID", "NAME", "FILES");
     
     while (
     (e = readdir(d))
@@ -35,12 +34,10 @@ int main() {
             snprintf(path, 256, "/proc/%s/comm", e->d_name);
             FILE *f = fopen(path, "r");
             fgets(buf, 256, f);
-            buf[strcspn(buf, "
-")] = 0;
+            buf[strcspn(buf, "\n")] = 0;
             fclose(f);
             
-            printf("%-8s %-20s %-10d
-", e->d_name, buf, count - 2);
+            printf("%-8s %-20s %-10d\n", e->d_name, buf, count - 2);
         }
     }
     closedir(d);

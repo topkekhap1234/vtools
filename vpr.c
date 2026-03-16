@@ -10,18 +10,15 @@
 #include <string.h>
 
 int main(int argc, char *argv[]) {
-    if (argc < 2) { printf("Usage: %s <pid>
-", argv[0]); return 1; }
+    if (argc < 2) { printf("Usage: %s <pid>\n", argv[0]); return 1; }
     
     char path[256];
     snprintf(path, sizeof(path), "/proc/%s", argv[1]);
     
     if (access(path, F_OK) == 0) {
-        printf("Process PID %s is RUNNING
-", argv[1]);
+        printf("Process PID %s is RUNNING\n", argv[1]);
     } else {
-        printf("Process PID %s NOT FOUND
-", argv[1]);
+        printf("Process PID %s NOT FOUND\n", argv[1]);
     }
     return 0;
 }

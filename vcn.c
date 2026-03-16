@@ -12,10 +12,7 @@ int main() {
     if (!fp) { perror("Can't open /proc/net/tcp"); return 1; }
 
     char line[256];
-    printf("%-20s %-10s
-", "Remote IP (Hex)", "Status");
-    printf("----------------------------------
-");
+    printf("%-20s %-10s\n", "Remote IP (Hex)", "Status");
 
     fgets(line, sizeof(line), fp);
     while (fgets(line, sizeof(line), fp)) {
@@ -24,8 +21,7 @@ int main() {
         sscanf(line, "%*d: %*x:%*x %[^:]:%*x %x", rem_addr, &state);
         
         if (state == 1) {
-            printf("%-20s Established
-", rem_addr);
+          printf("%-20s Established\n", rem_addr);
         }
     }
     fclose(fp);
