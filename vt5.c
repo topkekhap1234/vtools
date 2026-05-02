@@ -1,6 +1,6 @@
 /*
  * vtools — Vital System Utilities
- * Copyright (C) 2024 LevLarinin
+ * Copyright (C) 2026 LevLarinin
  * Licensed under GPLv3
  */
 #include <stdio.h>
@@ -9,11 +9,11 @@
 #include <string.h>
 #include <ctype.h>
 
-typedef struct { int pid;
-		 char name[512];
-		 unsigned long utime;
-}
-Proc;
+typedef struct {
+    int pid;
+    char name[512];
+    unsigned long utime;
+} Proc;
 
 int cmp(const void *a, const void *b) {
     return ((Proc*)b)->utime - ((Proc*)a)->utime;
@@ -32,6 +32,7 @@ int main() {
 
         char path[512];
         snprintf(path, sizeof(path), "/proc/%s/stat", e->d_name);
+        
         FILE *f = fopen(path, "r");
         if (f) {
             fscanf(f, "%d (%[^)]) %*c %*d %*d %*d %*d %*d %*u %*u %*u %*u %*u %lu", 

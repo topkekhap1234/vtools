@@ -1,6 +1,6 @@
 /*
  * vtools — Vital System Utilities
- * Copyright (C) 2026 LevLarinin
+ * Copyright (C) 2026 Lev Larinin
  * Licensed under GPLv3
  */
 #include <stdio.h>
@@ -8,30 +8,31 @@
 #include <unistd.h>
 #include <string.h>
 
-int main() {
-    int fd = open("/dev/kmsg", O_RDONLY | O_NONBLOCK);
+#define KMSG "/dev/kmsg"
+#define MAX_PRIO 3
+
+int main(void) {
+    int fd = open(KMSG, O_RDONLY | O_NONBLOCK);
     if (fd < 0) {
-        perror("Can't access /dev/kmsg (try sudo)");
+        perror(KMSG);
         return 1;
     }
 
     char buf[1024];
-    printf("%-10s %s\n", "PRIO", "KERNEL LOG MESSAGE (CRITICAL ONLY)");
+    printf("%-8s %s\n", "PRIO", "KERNEL MESSAGE (CRIT)");
 
-    while (read(fd, buf, sizeof(buf)) > 0) {
-        int prio;
-        char *msg;
-        
-        if (sscanf(buf, "%d,", &prio) == 1) {
-            if (prio <= 3) {
-                msg = strchr(buf, ';');
-                if (msg) {
-                    msg++;
-                    printf("[PRIO %d] %s", prio, msg);
-                }
-            }
-        }
-        memset(buf, 0, sizeof(buf));
+    ssize_t n;
+    while ((n = read(fd, buf, sizeof(buf) - 1)) > 0) {
+        buf[n] = '\0'; 
+
+        int p;
+        if (sscanf(buf, "%d,", &p) != 1) continue;
+        if (p > MAX_PRIO) continue;
+
+        char *m = strchr(buf, ';');
+        if (!m) continue;
+
+        printf("%-8d %s", p, m + 1);
     }
 
     close(fd);

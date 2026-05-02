@@ -1,16 +1,14 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -O2
-LDFLAGS = 
+LDFLAGS =
 PREFIX = /usr/local
 
 BINS = vst vfs vpr vcn vpt vt5 vfl vlk vlg
 
-# Указываем, что это не имена файлов
 .PHONY: all clean install uninstall
 
 all: $(BINS)
 
-# Универсальное правило сборки
 %: %.c
 	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
 

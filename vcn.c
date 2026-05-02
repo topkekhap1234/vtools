@@ -1,28 +1,42 @@
 /*
  * vtools — Vital System Utilities
- * Copyright (C) 2024 LevLarinin
+ * Copyright (C) 2026 Lev Larinin
  * Licensed under GPLv3
  */
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#define TCP_PATH "/proc/net/tcp"
+#define ESTABLISHED 1
 
-int main() {
-   FILE *fp = fopen("/proc/net/tcp", "r");
-    if (!fp) { perror("Can't open /proc/net/tcp"); return 1; }
+void printcon(const char *line) {
+    char remip[64];
+    int state;
 
-    char line[256];
-    printf("%-20s %-10s\n", "Remote IP (Hex)", "Status");
+    if (sscanf(line, "%*d: %*x:%*x %63[^:]:%*x %x", remip, &state) != 2)
+        return;
 
-    fgets(line, sizeof(line), fp);
-    while (fgets(line, sizeof(line), fp)) {
-        char rem_addr[128];
-        int state;
-        sscanf(line, "%*d: %*x:%*x %[^:]:%*x %x", rem_addr, &state);
-        
-        if (state == 1) {
-          printf("%-20s Established\n", rem_addr);
-        }
+    if (state != ESTABLISHED)
+        return;
+
+    printf("%-20s %-12s\n", remip, "ESTABLISHED");
+}
+
+int main(void) {
+    FILE *f = fopen(TCP_PATH, "r");
+    if (!f) return 1;
+
+    char buf[256];
+    printf("%-20s %-12s\n", "REMOTE_IP_HEX", "STATUS");
+
+    /* Пропускаем первую строку (заголовок) */
+    if (!fgets(buf, sizeof(buf), f)) {
+        fclose(f);
+        return 0;
     }
-    fclose(fp);
+
+    /* Читаем файл до конца */
+    while (fgets(buf, sizeof(buf), f))
+        printcon(buf);
+
+    fclose(f);
+    return 0;
 }
