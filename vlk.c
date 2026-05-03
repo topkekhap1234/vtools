@@ -1,6 +1,6 @@
 /*
  * vtools — Vital System Utilities
- * Copyright (C) 2024 LevLarinin
+ * Copyright (C) 2026 LevLarinin
  * Licensed under GPLv3
  */
 #include <stdio.h>
