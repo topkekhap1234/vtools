@@ -1,9 +1,9 @@
-vstat
-vdf
-vport
-vtop
-vconn
-vfiles
-vlock
-vlog
+vst
+vpr
+vpt
+vt5
+vcn
+vfl
+vlk
+vlg
 *.o
