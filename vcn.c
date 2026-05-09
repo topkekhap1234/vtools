@@ -4,6 +4,7 @@
  * Licensed under GPLv3
  */
 #include <stdio.h>
+
 #define TCP_PATH "/proc/net/tcp"
 #define ESTABLISHED 1
 
@@ -27,13 +28,11 @@ int main(void) {
     char buf[256];
     printf("%-20s %-12s\n", "REMOTE_IP_HEX", "STATUS");
 
-    /* Пропускаем первую строку (заголовок) */
     if (!fgets(buf, sizeof(buf), f)) {
         fclose(f);
         return 0;
     }
 
-    /* Читаем файл до конца */
     while (fgets(buf, sizeof(buf), f))
         printcon(buf);
 

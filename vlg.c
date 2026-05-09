@@ -19,7 +19,7 @@ int main(void) {
     }
 
     char buf[1024];
-    printf("%-8s %s\n", "PRIO", "KERNEL MESSAGE (CRIT)");
+    printf("%-8s %s\n", "PRIO", "KERNEL MESSAGE");
 
     ssize_t n;
     while ((n = read(fd, buf, sizeof(buf) - 1)) > 0) {
