@@ -21,7 +21,7 @@ When a server is under heavy load, experiencing a DDoS attack, or running out of
 | vpr | Vital PRocess | Verifies if a specific PID is currently active. |
 | vcn | Vital CoNnections | Active TCP connection monitor for DDoS detection. |
 | vfl | Vital FiLes | Identifies processes with potential file descriptor leaks. |
-| vlk | Vital LocKs | Locates processes holding critical file locks. |
+| vlk | Vital LocKs | Lists processes with locks. If PID given, lists their locked files. |
 | vlg | Vital LoGs | Emergency kernel log scanner filtering for Errors and Critical events. |
 
 ------------------------------
