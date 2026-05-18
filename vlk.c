@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <dirent.h>
 #include <unistd.h>
+#include <sys/stat.h> // Добавили для проверки inode файла
 
 int main(int argc, char *argv[]) {
     FILE *f = fopen("/proc/locks", "r");
@@ -17,7 +18,12 @@ int main(int argc, char *argv[]) {
 
     while (fgets(line, sizeof(line), f)) {
         int pid;
-        if (sscanf(line, "%*d: %*s %*s %*s %d", &pid) != 1) continue;
+        unsigned long lock_inode = 0;
+
+        // Парсим строку: пропускаем первые 4 элемента (%*s), берем PID (%d), 
+        // затем пропускаем мажорный/минорный номера диска (%*x:%*x) и берем точный inode (%lu)
+        // Пример: "1: POSIX ADVISORY WRITE 12345 08:01:987654 ..." -> pid=12345, lock_inode=987654
+        if (sscanf(line, "%*s %*s %*s %*s %d %*x:%*x:%lu", &pid, &lock_inode) != 2) continue;
         if (pid <= 0 || (target_pid == 0 && pid == last_pid)) continue;
         if (target_pid != 0 && pid != target_pid) continue;
 
@@ -40,15 +46,23 @@ int main(int argc, char *argv[]) {
                         if (de->d_name[0] == '.') continue;
                         char link_path[512], real_path[512];
                         snprintf(link_path, sizeof(link_path), "%s/%s", fd_dir_path, de->d_name);
-                        ssize_t len = readlink(link_path, real_path, sizeof(real_path) - 1);
-                        if (len != -1) {
-                            real_path[len] = '\0';
-                            printf("%-10d %-20s %s\n", pid, comm, real_path);
+                        
+                        // Получаем inode текущего открытого файла через stat
+                        struct stat st;
+                        if (stat(link_path, &st) == 0) {
+                            // Если inode файла совпадает с inode из /proc/locks — это наш заблокированный файл!
+                            if (st.st_ino == lock_inode) {
+                                ssize_t len = readlink(link_path, real_path, sizeof(real_path) - 1);
+                                if (len != -1) {
+                                    real_path[len] = '\0';
+                                    printf("%-10d %-20s %s\n", pid, comm, real_path);
+                                }
+                            }
                         }
                     }
                     closedir(d);
                 }
-                break;
+                // Не выходим через break сразу, так как у одного PID в /proc/locks может быть несколько разных блокировок
             } else {
                 printf("%-10d %-20s [HAS LOCKS]\n", pid, comm);
             }
